@@ -45,7 +45,7 @@ const FormRegister = () => {
         <input
           type='email'
           name='email'
-          placeholder='s9Ew2@example.com'
+          placeholder='username@gmail.com'
           className='bg-gray-50 border border-gray-300 text-gray-900 rounded-lg w-full p-2.5'
         />
         <div aria-live='polite' aria-atomic='true'>
