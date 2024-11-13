@@ -102,7 +102,7 @@ export const deleteProduct = async (id: string) => {
 export const CreateProduct = async (prevState: any, formData: FormData) => {
   const session = await auth();
 
-  if (!session || !session.user) {
+  if (!session || !session.user || !session.user.id) {
     redirect("/login");
     return;
   }
@@ -128,7 +128,7 @@ export const CreateProduct = async (prevState: any, formData: FormData) => {
       data: {
         name: product,
         price: priceNumber,
-        userId: session.user.id,
+        userId: session.user.id, // now guaranteed to be a valid string
       },
     });
   } catch (error) {
