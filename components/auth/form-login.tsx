@@ -1,9 +1,9 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import Link from "next/link";
-import { signInCredentials } from "@/lib/actions";
 import { LoginButton } from "@/components/button";
+import { signInCredentials } from "@/lib/actions";
+import Link from "next/link";
+import { useFormState } from "react-dom";
 
 const FormLogin = () => {
   const [state, formAction] = useFormState(signInCredentials, null);

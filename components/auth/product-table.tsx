@@ -1,8 +1,13 @@
+import { auth } from "@/auth";
+import { DeleteButton, EditButton } from "@/components/button";
 import { getProductByUser } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 
 const ProductTable = async () => {
   const products = await getProductByUser();
+  const session = await auth();
+  console.log(session);
+
   if (!products?.length) return <h1 className='text-2xl'>No Product Found</h1>;
 
   return (
@@ -12,7 +17,7 @@ const ProductTable = async () => {
           <th className='py-3 px-6 text-left text-sm'>Name</th>
           <th className='py-3 px-6 text-left text-sm'>Price</th>
           <th className='py-3 px-6 text-left text-sm'>Created At</th>
-          <th className='py-3 px-6 text-left text-sm'>Created</th>
+          <th className='py-3 px-6 text-left text-sm'>Created By</th>
           <th className='py-3 px-6 text-left text-sm'>Action</th>
         </tr>
       </thead>
@@ -25,7 +30,10 @@ const ProductTable = async () => {
               {formatDate(product.createdAt.toString())}
             </td>
             <td className='py-3 px-6'>{product.user.name}</td>
-            <td className='py-3 px-6'>{product.userId}</td>
+            <td className='flex justify-center gap-1 py-3'>
+              <EditButton id={product.id} />
+              <DeleteButton id={product.id} />
+            </td>
           </tr>
         ))}
       </tbody>

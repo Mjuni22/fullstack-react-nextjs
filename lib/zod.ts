@@ -20,3 +20,11 @@ export const RegisterSchema = object({
   message: "Passwords do not match",
   path: ["ConfirmPassword"],
 });
+
+export const CreateProductSchema = object({
+  product: string().min(1, "Name must be more than 1 character"),
+  price: string()
+    .min(1, "Price must be more than 1 character")
+    .transform((val) => Number(val))
+    .refine((val) => !isNaN(val), { message: "Price must be a number" }),
+});

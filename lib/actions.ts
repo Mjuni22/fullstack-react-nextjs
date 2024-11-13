@@ -1,13 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { RegisterSchema, SignInSchema } from "@/lib/zod";
-import { hashSync } from "bcrypt-ts";
+import { auth, signIn } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { redirect } from "next/navigation";
+import { CreateProductSchema, RegisterSchema, SignInSchema } from "@/lib/zod";
+import { hashSync } from "bcrypt-ts";
 import { AuthError } from "next-auth";
-import { signIn } from "../auth";
+import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
-// Sign Up Action
 export const signUpCredentials = async (
   prevState: unknown,
   formData: FormData
@@ -39,10 +40,8 @@ export const signUpCredentials = async (
       },
     });
 
-    // Redirect to login page after successful registration
     redirect("/login");
   } catch (error) {
-    // Log error for server-side troubleshooting
     console.error("Error creating user:", error);
     return {
       message:
@@ -51,7 +50,6 @@ export const signUpCredentials = async (
   }
 };
 
-// Sign In Action
 export const signInCredentials = async (
   prevState: unknown,
   formData: FormData
@@ -83,6 +81,63 @@ export const signInCredentials = async (
           return { message: "Something went wrong. Please try again later." };
       }
     }
-    throw error;
+    throw new Error();
   }
+};
+
+export const deleteProduct = async (id: string) => {
+  try {
+    await prisma.product.delete({
+      where: { id },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (error) {
+    return { message: "Failed to delete contact" };
+  }
+
+  revalidatePath("/product");
+};
+
+// Create Product Action
+export const CreateProduct = async (prevState: any, formData: FormData) => {
+  const session = await auth();
+
+  if (!session || !session.user) {
+    redirect("/login");
+    return;
+  }
+
+  const validateFields = CreateProductSchema.safeParse(
+    Object.fromEntries(formData.entries())
+  );
+
+  if (!validateFields.success) {
+    return {
+      Error: validateFields.error.flatten().fieldErrors,
+    };
+  }
+
+  const { product, price } = validateFields.data;
+  const priceNumber = Number(price);
+  if (isNaN(priceNumber)) {
+    return { message: "Invalid price value, must be a number" };
+  }
+
+  try {
+    await prisma.product.create({
+      data: {
+        name: product,
+        price: priceNumber,
+        userId: session.user.id,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to create product:", error);
+    return {
+      message: "Failed to create product, please try again later.",
+    };
+  }
+
+  revalidatePath("/product");
+  redirect("/product");
 };

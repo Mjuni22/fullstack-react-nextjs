@@ -1,9 +1,9 @@
 "use client";
 
-import { useFormState } from "react-dom";
-import Link from "next/link";
-import { signUpCredentials } from "@/lib/actions";
 import { RegisterButton } from "@/components/button";
+import { signUpCredentials } from "@/lib/actions";
+import Link from "next/link";
+import { useFormState } from "react-dom";
 
 const FormRegister = () => {
   const [state, formAction] = useFormState(signUpCredentials, null);
