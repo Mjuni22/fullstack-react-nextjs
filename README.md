@@ -41,34 +41,43 @@ Make sure you have the following installed on your machine:
    ```bash
    git clone https://github.com/Mjuni22/fullstack-react-nextjs.git
    cd fullstack-react-nextjs
-
-## 📜 Available Scripts
-npm run dev: Starts the development server.
-npm run build: Builds the app for production.
-npm run start: Runs the app in production mode.
-npm run lint: Lints the codebase using ESLint.
-4. npm run postinstall: Generates the Prisma client after installation.
+   npm run dev: Starts the development server.
+   npm run build: Builds the app for production.
+   npm run start: Runs the app in production mode.
+   npm run lint: Lints the codebase using ESLint.
+   npm run postinstall: Generates the Prisma client after installation.
+   
    
 ## 📂 Folder Structure
+
 app: Application pages and routing.
 styles: Global styles and Tailwind CSS configurations.
 lib: Utility functions and Prisma configurations.
 
+
+
 ## 🔒 Authentication with NextAuth.js
+
 This app uses NextAuth.js with the Prisma Adapter for seamless integration with PostgreSQL. Additional providers, such as Google and GitHub, can be configured in pages/api/auth/[...nextauth].ts.
 
+
 ## 🛡️ Schema Validation with Zod
+
 Zod is utilized for schema validation, ensuring that data meets the expected formats, which reduces runtime errors and improves data consistency.
+
 
 ## 🔑 Password Hashing with bcrypt-ts
 Passwords are hashed using bcrypt-ts, ensuring secure storage of user credentials.
 
+
 ## 🚢 Deployment on Vercel
+
 Push your project to a GitHub repository.
 Go to Vercel, import the repository, and set up the required environment variables in Vercel’s settings.
 Deploy the application through Vercel's interface.
 
 ## 📚 Resources
+
 Next.js Documentation
 PostgreSQL Documentation
 Tailwind CSS Documentation
