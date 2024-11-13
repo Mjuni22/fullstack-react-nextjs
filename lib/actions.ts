@@ -4,6 +4,7 @@
 import { auth, signIn } from "@/auth";
 import { prisma } from "@/lib/prisma";
 import { CreateProductSchema, RegisterSchema, SignInSchema } from "@/lib/zod";
+import { Prisma } from "@prisma/client";
 import { hashSync } from "bcrypt-ts";
 import { AuthError } from "next-auth";
 import { revalidatePath } from "next/cache";
@@ -13,6 +14,7 @@ export const signUpCredentials = async (
   prevState: unknown,
   formData: FormData
 ) => {
+  // Validasi data form
   const validateFields = RegisterSchema.safeParse(
     Object.fromEntries(formData.entries())
   );
@@ -27,12 +29,14 @@ export const signUpCredentials = async (
   const hashedPassword = hashSync(password, 10);
 
   try {
+    // Cek apakah pengguna dengan email yang sama sudah ada
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
-      return { message: "User already exists" };
+      return { message: "User already exists", success: false };
     }
 
-    await prisma.user.create({
+    // Membuat user baru
+    const createdUser = await prisma.user.create({
       data: {
         name,
         email,
@@ -40,12 +44,34 @@ export const signUpCredentials = async (
       },
     });
 
-    redirect("/login");
+    console.log("User created successfully:", createdUser);
+
+    // Mengalihkan ke halaman login setelah berhasil mendaftar
+    if (typeof window !== "undefined") {
+      // Client-side redirect
+      window.location.href = "/login";
+    } else {
+      // Server-side redirect, jika menggunakan Next.js misalnya
+      // return { redirect: { destination: '/login', permanent: false } };
+    }
+
+    return { message: "User created successfully", success: true };
   } catch (error) {
+    // Tangani error lebih spesifik
     console.error("Error creating user:", error);
+
+    if (error instanceof Prisma.PrismaClientKnownRequestError) {
+      if (error.code === "P2002") {
+        // Jika email sudah ada, beri pesan khusus
+        return { message: "Email is already in use.", success: false };
+      }
+    }
+
+    // Pesan umum jika ada error yang tidak terduga
     return {
       message:
         "An error occurred while creating your account. Please try again later.",
+      success: false,
     };
   }
 };
