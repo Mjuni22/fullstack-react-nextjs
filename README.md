@@ -1,4 +1,4 @@
-# 🚀 Fullstack Next.js 14 Project
+# 🚀 Fullstack Next.js 15 Project
 
 This is a full-stack [Next.js](https://nextjs.org) application, built using PostgreSQL, styled with Tailwind CSS, and secured with NextAuth.js authentication. Deployed on Vercel, this project is designed to be scalable, responsive, and efficient.
 
@@ -15,8 +15,8 @@ This is a full-stack [Next.js](https://nextjs.org) application, built using Post
 
 The project incorporates a high-performance, secure stack:
 
-- **Next.js** (v14.2.17)
-- **React** (v18) and **React DOM**
+- **Next.js** (15.0.3)
+- **React** (v19) and **React DOM**
 - **Prisma** (v5.22.0) with **@auth/prisma-adapter** (v2.7.3)
 - **NextAuth.js** (v5.0.0-beta.25)
 - **Tailwind CSS** (v3.4.1)
@@ -46,29 +46,27 @@ Make sure you have the following installed on your machine:
    npm run start: Runs the app in production mode.
    npm run lint: Lints the codebase using ESLint.
    npm run postinstall: Generates the Prisma client after installation.
-   
-   
+
+
+   ```
+
 ## 📂 Folder Structure
 
 app: Application pages and routing.
 styles: Global styles and Tailwind CSS configurations.
 lib: Utility functions and Prisma configurations.
 
-
-
 ## 🔒 Authentication with NextAuth.js
 
 This app uses NextAuth.js with the Prisma Adapter for seamless integration with PostgreSQL. Additional providers, such as Google and GitHub, can be configured in pages/api/auth/[...nextauth].ts.
-
 
 ## 🛡️ Schema Validation with Zod
 
 Zod is utilized for schema validation, ensuring that data meets the expected formats, which reduces runtime errors and improves data consistency.
 
-
 ## 🔑 Password Hashing with bcrypt-ts
-Passwords are hashed using bcrypt-ts, ensuring secure storage of user credentials.
 
+Passwords are hashed using bcrypt-ts, ensuring secure storage of user credentials.
 
 ## 🚢 Deployment on Vercel
 

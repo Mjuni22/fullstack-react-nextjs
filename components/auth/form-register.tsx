@@ -1,12 +1,11 @@
 "use client";
-
 import { RegisterButton } from "@/components/button";
 import { signUpCredentials } from "@/lib/actions";
 import Link from "next/link";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
 
 const FormRegister = () => {
-  const [state, formAction] = useFormState(signUpCredentials, null);
+  const [state, formAction] = useActionState(signUpCredentials, null);
   return (
     <form action={formAction} className='space-y-6'>
       {state?.message ? (

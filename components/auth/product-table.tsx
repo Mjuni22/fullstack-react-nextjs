@@ -1,13 +1,9 @@
-import { auth } from "@/auth";
 import { DeleteButton, EditButton } from "@/components/button";
 import { getProductByUser } from "@/lib/data";
 import { formatDate } from "@/lib/utils";
 
 const ProductTable = async () => {
   const products = await getProductByUser();
-  const session = await auth();
-  console.log(session);
-
   if (!products?.length) return <h1 className='text-2xl'>No Product Found</h1>;
 
   return (

@@ -1,11 +1,10 @@
 "use client";
-
 import { CreateProduct } from "@/lib/actions";
+import { useActionState } from "react";
 import { SubmitButton } from "../button";
-import { useFormState } from "react-dom";
 
 const CreateForm = () => {
-  const [state, formAction] = useFormState(CreateProduct, null);
+  const [state, formAction] = useActionState(CreateProduct, null);
   return (
     <div className='border p-5 border-gray-300'>
       <form action={formAction}>
